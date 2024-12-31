@@ -1,0 +1,46 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "GlueX Exchange Rates API",
+        "description": "Easy-to-use and highly scalable solution for accessing on-chain exchange rates between any two token pairs across multiple supported blockchains.",
+        "version": "1.0.0"
+    },
+    "servers": [{
+        "url": "https://exchange-rates.gluex.xyz",
+        "description": "Production server"
+    }],
+    "paths": {
+        "/chains": {
+            "get": {
+                "summary": "List of all blockchain networks supported by the Gluex Exchange Rates API",
+                "operationId": "getChains",
+                "responses": {
+                    "200": {
+                        "description": "List of all blockchain IDs",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "blockchain_id": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
