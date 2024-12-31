@@ -41,6 +41,44 @@
                     }
                 }
             }
+        },
+        "/exchange-rates": {
+            "post": {
+                "summary": "Exchange rates between token pairs across blockchains.",
+                "operationId": "getExchangeRates",
+                "responses": {
+                    "200": {
+                        "description": "Gets exchange rates for token pairs on any of the supported chain.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "domestic_blockchain": {
+                                                "type": "string"
+                                            },
+                                            "domestic_token": {
+                                                "type": "string"
+                                            },
+                                            "foreign_blockchain": {
+                                                "type": "string"
+                                            },
+                                            "foreign_token": {
+                                                "type": "string"
+                                            },
+                                            "price": {
+                                                "type": "float"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
