@@ -27,19 +27,28 @@
                       "type": "object",
                       "properties": {
                         "id": {
-                          "type": "integer"
+                          "type": "integer",
+                          "description": "Unique identifier for the blockchain network"
                         },
                         "name": {
-                          "type": "string"
+                          "type": "string",
+                          "description": "Name of the blockchain network"
                         },
                         "blockchain_id": {
-                          "type": "string"
+                          "type": "string",
+                          "description": "Identifier for the blockchain network"
                         }
                       }
                     }
                   }
                 }
               }
+            },
+            "400": {
+              "description": "Invalid request payload"
+            },
+            "500": {
+              "description": "Server error"
             }
           }
         }
