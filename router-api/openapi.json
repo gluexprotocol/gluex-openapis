@@ -1,0 +1,534 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "GlueX Router API",
+      "description": "The GlueX Router API provides advanced routing for seamless trading across decentralized finance (DeFi). Utilizing multihop routing, it identifies the best prices and optimal trading paths, ensuring users achieve the most efficient and cost-effective trades. The API empowers developers with flexibility and performance to integrate powerful trading solutions into their applications.",
+      "version": "1.0.0"
+    },
+    "servers": [
+      {
+        "url": "https://router.gluex.xyz",
+        "description": "Production server"
+      }
+    ],
+    "paths": {
+      "/price": {
+        "get": {
+          "summary": "Get trade price details",
+          "description": "Provides pricing details for a trade, including routing fees and token amounts.",
+          "parameters": [
+            {
+              "name": "chainID",
+              "in": "query",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "The ID of the blockchain network."
+            },
+            {
+              "name": "inputToken",
+              "in": "query",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "Address of the token being exchanged."
+            },
+            {
+              "name": "outputToken",
+              "in": "query",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "Address of the token to receive."
+            },
+            {
+              "name": "inputAmount",
+              "in": "query",
+              "required": false,
+              "schema": {
+                "type": "string"
+              },
+              "description": "Amount of input tokens being sent."
+            },
+            {
+              "name": "outputAmount",
+              "in": "query",
+              "required": false,
+              "schema": {
+                "type": "string"
+              },
+              "description": "Amount of output tokens expected."
+            },
+            {
+              "name": "outputReceiver",
+              "in": "query",
+              "required": false,
+              "schema": {
+                "type": "string"
+              },
+              "description": "Address of the recipient for the output tokens."
+            },
+            {
+              "name": "uniqueUID",
+              "in": "query",
+              "required": false,
+              "schema": {
+                "type": "string"
+              },
+              "description": "An unique identifier for the user."
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "inputToken": {
+                        "type": "string",
+                        "description": "Address of the input token."
+                      },
+                      "outputToken": {
+                        "type": "string",
+                        "description": "Address of the output token."
+                      },
+                      "routingFeeToken": {
+                        "type": "string",
+                        "description": "Token used to pay routing fees."
+                      },
+                      "inputAmount": {
+                        "type": "string",
+                        "description": "Amount of input tokens."
+                      },
+                      "outputAmount": {
+                        "type": "string",
+                        "description": "Amount of output tokens."
+                      },
+                      "routingFee": {
+                        "type": "string",
+                        "description": "Fee charged for routing."
+                      },
+                      "route": {
+                        "type": "array",
+                        "description": "List of hops in the trade route.",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "fromAddress": {
+                              "type": "string",
+                              "description": "Address from which tokens are sent."
+                            },
+                            "toAddress": {
+                              "type": "string",
+                              "description": "Address to which tokens are sent."
+                            },
+                            "amountIn": {
+                              "type": "string",
+                              "description": "Amount of tokens sent."
+                            },
+                            "amountOut": {
+                              "type": "string",
+                              "description": "Amount of tokens received."
+                            },
+                            "tokenIn": {
+                              "type": "string",
+                              "description": "Address of the input token."
+                            },
+                            "tokenOut": {
+                              "type": "string",
+                              "description": "Address of the output token."
+                            },
+                            "liquidityModule": {
+                              "type": "string",
+                              "description": "Name of the liquidity module."
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad Request",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "error": {
+                        "type": "string",
+                        "description": "Description of the error."
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "error": {
+                        "type": "string",
+                        "description": "API key is missing or invalid."
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "403": {
+              "description": "Forbidden",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "error": {
+                        "type": "string",
+                        "description": "Insufficient permissions for this endpoint."
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Not Found",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "error": {
+                        "type": "string",
+                        "description": "The requested resource could not be found."
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Internal Server Error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "error": {
+                        "type": "string",
+                        "description": "An unexpected error occurred."
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "502": {
+              "description": "Bad Gateway",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "error": {
+                        "type": "string",
+                        "description": "Invalid response from upstream server."
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "503": {
+              "description": "Service Unavailable",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "error": {
+                        "type": "string",
+                        "description": "The service is temporarily unavailable."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "security": [{ "apiKeyAuth": [] }]
+        }
+      },
+      "/quote": {
+        "get": {
+          "summary": "Get trade quote",
+          "description": "Provides a detailed quote for a trade, including routing fees, token amounts, and call data.",
+          "parameters": [
+            {
+              "name": "chainID",
+              "in": "query",
+              "required": true,
+              "schema": { "type": "string" },
+              "description": "The ID of the blockchain network."
+            },
+            {
+              "name": "inputToken",
+              "in": "query",
+              "required": true,
+              "schema": { "type": "string" },
+              "description": "Address of the token being exchanged."
+            },
+            {
+              "name": "outputToken",
+              "in": "query",
+              "required": true,
+              "schema": { "type": "string" },
+              "description": "Address of the token to receive."
+            },
+            {
+              "name": "inputAmount",
+              "in": "query",
+              "required": false,
+              "schema": { "type": "string" },
+              "description": "Amount of input tokens being sent."
+            },
+            {
+              "name": "outputAmount",
+              "in": "query",
+              "required": false,
+              "schema": { "type": "string" },
+              "description": "Amount of output tokens expected."
+            },
+            {
+              "name": "outputReceiver",
+              "in": "query",
+              "required": false,
+              "schema": { "type": "string" },
+              "description": "Address of the recipient for the output tokens."
+            },
+            {
+              "name": "uniqueUID",
+              "in": "query",
+              "required": false,
+              "schema": { "type": "string" },
+              "description": "A unique identifier for the transaction."
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "inputToken": {
+                        "type": "string",
+                        "description": "Address of the input token."
+                      },
+                      "outputToken": {
+                        "type": "string",
+                        "description": "Address of the output token."
+                      },
+                      "routingFeeToken": {
+                        "type": "string",
+                        "description": "Token used to pay routing fees."
+                      },
+                      "inputAmount": {
+                        "type": "string",
+                        "description": "Amount of input tokens."
+                      },
+                      "outputAmount": {
+                        "type": "string",
+                        "description": "Amount of output tokens."
+                      },
+                      "routingFee": {
+                        "type": "string",
+                        "description": "Fee charged for routing."
+                      },
+                      "route": {
+                        "type": "array",
+                        "description": "List of hops in the trade route.",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "fromAddress": {
+                              "type": "string",
+                              "description": "Address from which tokens are sent."
+                            },
+                            "toAddress": {
+                              "type": "string",
+                              "description": "Address to which tokens are sent."
+                            },
+                            "amountIn": {
+                              "type": "string",
+                              "description": "Amount of tokens sent."
+                            },
+                            "amountOut": {
+                              "type": "string",
+                              "description": "Amount of tokens received."
+                            },
+                            "tokenIn": {
+                              "type": "string",
+                              "description": "Address of the input token."
+                            },
+                            "tokenOut": {
+                              "type": "string",
+                              "description": "Address of the output token."
+                            },
+                            "liquidityModule": {
+                              "type": "string",
+                              "description": "Name of the liquidity module."
+                            }
+                          }
+                        }
+                      },
+                      "callData": {
+                        "type": "string",
+                        "description": "Encoded call data for executing the trade."
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad Request",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "error": {
+                        "type": "string",
+                        "description": "Description of the error."
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "error": {
+                        "type": "string",
+                        "description": "API key is missing or invalid."
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "403": {
+              "description": "Forbidden",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "error": {
+                        "type": "string",
+                        "description": "Insufficient permissions for this endpoint."
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Not Found",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "error": {
+                        "type": "string",
+                        "description": "The requested resource could not be found."
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Internal Server Error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "error": {
+                        "type": "string",
+                        "description": "An unexpected error occurred."
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "502": {
+              "description": "Bad Gateway",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "error": {
+                        "type": "string",
+                        "description": "Invalid response from upstream server."
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "503": {
+              "description": "Service Unavailable",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "error": {
+                        "type": "string",
+                        "description": "The service is temporarily unavailable."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "security": [{ "apiKeyAuth": [] }]
+        }
+      }
+    },
+    "components": {
+      "securitySchemes": {
+        "apiKeyAuth": {
+          "type": "apiKey",
+          "name": "API Key",
+          "in": "header"
+        }
+      }
+    }
+  }
+  
