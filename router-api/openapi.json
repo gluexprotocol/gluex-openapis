@@ -2,7 +2,7 @@
     "openapi": "3.0.0",
     "info": {
       "title": "GlueX Router API",
-      "description": "The GlueX Router API provides advanced routing for seamless trading across decentralized finance (DeFi). Utilizing multihop routing, it identifies the best prices and optimal trading paths, ensuring users achieve the most efficient and cost-effective trades. The API empowers developers with flexibility and performance to integrate powerful trading solutions into their applications.",
+      "description": "The GlueX Router API enables efficient token swaps with advanced multihop routing, ensuring optimal prices and paths.",
       "version": "1.0.0"
     },
     "servers": [
@@ -12,10 +12,10 @@
       }
     ],
     "paths": {
-      "/price": {
+      "/v1/price": {
         "get": {
-          "summary": "Get trade price details",
-          "description": "Provides pricing details for a trade, including routing fees and token amounts.",
+          "summary": "Get swap price details",
+          "description": "Provides pricing details for a swap, including routing fees and token amounts.",
           "parameters": [
             {
               "name": "chainID",
@@ -52,15 +52,6 @@
                 "type": "string"
               },
               "description": "Amount of input tokens being sent."
-            },
-            {
-              "name": "outputAmount",
-              "in": "query",
-              "required": false,
-              "schema": {
-                "type": "string"
-              },
-              "description": "Amount of output tokens expected."
             },
             {
               "name": "outputReceiver",
@@ -271,10 +262,10 @@
           "security": [{ "apiKeyAuth": [] }]
         }
       },
-      "/quote": {
+      "/v1/quote": {
         "get": {
-          "summary": "Get trade quote",
-          "description": "Provides a detailed quote for a trade, including routing fees, token amounts, and call data.",
+          "summary": "Get swap quote",
+          "description": "Provides a detailed quote for a swap, including routing fees, token amounts, and call data.",
           "parameters": [
             {
               "name": "chainID",
@@ -303,13 +294,6 @@
               "required": false,
               "schema": { "type": "string" },
               "description": "Amount of input tokens being sent."
-            },
-            {
-              "name": "outputAmount",
-              "in": "query",
-              "required": false,
-              "schema": { "type": "string" },
-              "description": "Amount of output tokens expected."
             },
             {
               "name": "outputReceiver",
@@ -531,4 +515,3 @@
       }
     }
   }
-  
