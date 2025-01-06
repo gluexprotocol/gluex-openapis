@@ -1,0 +1,340 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "GlueX Router API",
+    "description": "The GlueX Router API enables efficient token swaps with advanced multihop routing, ensuring optimal prices and paths."
+  },
+  "paths": {
+    "/v1/price": {
+      "get": {
+        "summary": "v1 Price",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "inputToken": {
+                      "type": "string",
+                      "description": "Address of the input token."
+                    },
+                    "outputToken": {
+                      "type": "string",
+                      "description": "Address of the output token."
+                    },
+                    "routingFeeToken": {
+                      "type": "string",
+                      "description": "Token used to pay routing fees."
+                    },
+                    "inputAmount": {
+                      "type": "integer",
+                      "description": "Amount of input tokens."
+                    },
+                    "outputAmount": {
+                      "type": "integer",
+                      "description": "Amount of output tokens."
+                    },
+                    "routingFee": {
+                      "type": "integer",
+                      "description": "Fee charged for routing."
+                    },
+                    "route": {
+                      "type": "array",
+                      "description": "List of hops in the trade route.",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "liquidityModule": {
+                            "type": "string",
+                            "description": "Name of the liquidity module."
+                          },
+                          "amountIn": {
+                            "type": "integer",
+                            "description": "Amount of tokens sent."
+                          },
+                          "amountOut": {
+                            "type": "integer",
+                            "description": "Amount of tokens received."
+                          },
+                          "tokenIn": {
+                            "type": "string",
+                            "description": "Address of the input token."
+                          },
+                          "tokenOut": {
+                            "type": "string",
+                            "description": "Address of the output token."
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "inputToken": "0x40D16FC0246aD3160Ccc09B8D0D3A2cD28aE6C2f",
+                      "outputToken": "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+                      "routingFeeToken": "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+                      "inputAmount": 100000000000000000000,
+                      "outputAmount": 100000000000000000000,
+                      "routingFee": 4000000000000000000,
+                      "route": [
+                        {
+                          "liquidityModule": "mock_module",
+                          "amountIn": 100000000000000000000,
+                          "amountOut": 100000000000000000000,
+                          "tokenIn": "0x40D16FC0246aD3160Ccc09B8D0D3A2cD28aE6C2f",
+                          "tokenOut": "0x6B175474E89094C44Da98b954EedeAC495271d0F"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-v1-price",
+        "description": "Provides pricing details for a swap, including routing fees and token amounts.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "x-api-key",
+            "description": "API key of the user"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "chainID",
+            "description": "The ID of the blockchain network."
+          },
+          {
+            "schema": {
+              "type": "string",
+              "pattern": "^0x[a-fA-F0-9]{40}$"
+            },
+            "in": "query",
+            "name": "inputToken",
+            "description": "Address of the token being exchanged."
+          },
+          {
+            "schema": {
+              "type": "string",
+              "pattern": "^0x[a-fA-F0-9]{40}$"
+            },
+            "in": "query",
+            "name": "outputToken",
+            "description": "Address of the token to receive."
+          },
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "in": "query",
+            "name": "inputAmount",
+            "description": "Amount of input tokens being sent."
+          },
+          {
+            "schema": {
+              "type": "string",
+              "pattern": "^0x[a-fA-F0-9]{40}$"
+            },
+            "in": "query",
+            "name": "outputReceiver",
+            "description": "Address of the recipient for the output tokens."
+          },
+          {
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-fA-F0-9]{64}$"
+            },
+            "in": "query",
+            "name": "uniqueUID",
+            "description": "Unique identifier for the user."
+          }
+        ]
+      }
+    },
+    "/v1/quote": {
+      "get": {
+        "summary": "v1 Quote",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "inputToken": {
+                      "type": "string",
+                      "description": "Address of the input token."
+                    },
+                    "outputToken": {
+                      "type": "string",
+                      "description": "Address of the output token."
+                    },
+                    "routingFeeToken": {
+                      "type": "string",
+                      "description": "Token used to pay routing fees."
+                    },
+                    "inputAmount": {
+                      "type": "integer",
+                      "description": "Amount of input tokens."
+                    },
+                    "outputAmount": {
+                      "type": "integer",
+                      "description": "Amount of output tokens."
+                    },
+                    "routingFee": {
+                      "type": "integer",
+                      "description": "Fee charged for routing."
+                    },
+                    "route": {
+                      "type": "array",
+                      "description": "List of hops in the trade route.",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "liquidityModule": {
+                            "type": "string",
+                            "description": "Name of the liquidity module."
+                          },
+                          "amountIn": {
+                            "type": "integer",
+                            "description": "Amount of tokens sent."
+                          },
+                          "amountOut": {
+                            "type": "integer",
+                            "description": "Amount of tokens received."
+                          },
+                          "tokenIn": {
+                            "type": "string",
+                            "description": "Address of the input token."
+                          },
+                          "tokenOut": {
+                            "type": "string",
+                            "description": "Address of the output token."
+                          }
+                        }
+                      }
+                    },
+                    "callData": {
+                      "type": "string",
+                      "description": "Encoded call data for executing the trade."
+                    }
+                  }
+                },
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "inputToken": "0x40D16FC0246aD3160Ccc09B8D0D3A2cD28aE6C2f",
+                      "outputToken": "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+                      "routingFeeToken": "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+                      "inputAmount": 100000000000000000000,
+                      "outputAmount": 100000000000000000000,
+                      "routingFee": 4000000000000000000,
+                      "route": [
+                        {
+                          "liquidityModule": "mock_module",
+                          "amountIn": 100000000000000000000,
+                          "amountOut": 100000000000000000000,
+                          "tokenIn": "0x40D16FC0246aD3160Ccc09B8D0D3A2cD28aE6C2f",
+                          "tokenOut": "0x6B175474E89094C44Da98b954EedeAC495271d0F"
+                        }
+                      ],
+                      "callData": "0e3426c6d635e1ac3d00cac8e7e231afd45d59aa9bf92c83c029e17d9a9ef10bb4cedce463c40e0a360e2eb752878a0fb49405dcd74c4e7858b4431de9b375f22741763692327ec4150e85fe7e1555fc036ba19372e8841cb69cd3a33bda6a29a1d348205b06d59aae02fd2fdaad805b371ba50da367acb8d8a1df35b07d3743"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-v1-quote",
+        "description": "Provides quote details for a swap, including routing fees, token amounts and call data to execute the swap onchain.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "x-api-key",
+            "description": "API key of the user"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "chainID",
+            "description": "The ID of the blockchain network."
+          },
+          {
+            "schema": {
+              "type": "string",
+              "pattern": "^0x[a-fA-F0-9]{40}$"
+            },
+            "in": "query",
+            "name": "inputToken",
+            "description": "Address of the token being exchanged."
+          },
+          {
+            "schema": {
+              "type": "string",
+              "pattern": "^0x[a-fA-F0-9]{40}$"
+            },
+            "in": "query",
+            "name": "outputToken",
+            "description": "Address of the token to receive."
+          },
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "in": "query",
+            "name": "inputAmount",
+            "description": "Amount of input tokens being sent."
+          },
+          {
+            "schema": {
+              "type": "string",
+              "pattern": "^0x[a-fA-F0-9]{40}$"
+            },
+            "in": "query",
+            "name": "outputReceiver",
+            "description": "Address of the recipient for the output tokens."
+          },
+          {
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-fA-F0-9]{64}$"
+            },
+            "in": "query",
+            "name": "uniqueUID",
+            "description": "Unique identifier for the user."
+          }
+        ]
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "https://router.gluex.xyz",
+      "description": "Production server"
+    }
+  ],
+  "components": {
+    "securitySchemes": {}
+  }
+}
