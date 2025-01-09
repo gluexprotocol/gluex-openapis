@@ -63,41 +63,36 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "exchange_rates": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "object",
-                                                "properties": {
-                                                    "domestic_blockchain": {
-                                                        "type": "string",
-                                                        "description": "Identifier for the domestic blockchain network"
-                                                    },
-                                                    "domestic_token": {
-                                                        "type": "string",
-                                                        "description": "Address of the domestic token"
-                                                    },
-                                                    "foreign_blockchain": {
-                                                        "type": "string",
-                                                        "description": "Identifier for the foreign blockchain network"
-                                                    },
-                                                    "foreign_token": {
-                                                        "type": "string",
-                                                        "description": "Address of the foreign token"
-                                                    },
-                                                    "price": {
-                                                        "type": "number",
-                                                        "description": "Exchange rate between the two tokens"
-                                                    }
-                                                },
-                                                "required": [
-                                                    "domestic_token",
-                                                    "price",
-                                                    "foreign_token"
-                                                ]
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "domestic_blockchain": {
+                                                "type": "string",
+                                                "description": "Identifier for the domestic blockchain network"
+                                            },
+                                            "domestic_token": {
+                                                "type": "string",
+                                                "description": "Address of the domestic token"
+                                            },
+                                            "foreign_blockchain": {
+                                                "type": "string",
+                                                "description": "Identifier for the foreign blockchain network"
+                                            },
+                                            "foreign_token": {
+                                                "type": "string",
+                                                "description": "Address of the foreign token"
+                                            },
+                                            "price": {
+                                                "type": "number",
+                                                "description": "Exchange rate between the two tokens"
                                             }
-                                        }
+                                        },
+                                        "required": [
+                                            "domestic_token",
+                                            "price",
+                                            "foreign_token"
+                                        ]
                                     }
                                 }
                             }
