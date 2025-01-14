@@ -1,154 +1,152 @@
 {
     "openapi": "3.0.0",
     "info": {
-      "title": "GlueX Exchange Rates API",
-      "description": "Easy-to-use and highly scalable solution for accessing on-chain exchange rates between any two token pairs across multiple supported blockchains.",
-      "version": "1.0.0"
+        "title": "GlueX Exchange Rates API",
+        "description": "Easy-to-use and highly scalable solution for accessing on-chain exchange rates between any two token pairs across multiple supported blockchains.",
+        "version": "1.0.0"
     },
     "servers": [
-      {
-        "url": "https://exchange-rates.gluex.xyz",
-        "description": "Production server"
-      }
+        {
+            "url": "https://exchange-rates.gluex.xyz",
+            "description": "Production server"
+        }
     ],
     "paths": {
-      "/chains": {
-        "get": {
-          "summary": "List of all blockchain networks supported by the Gluex Exchange Rates API",
-          "operationId": "getChains",
-          "responses": {
-            "200": {
-              "description": "List of all blockchain IDs",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "integer",
-                          "description": "Unique identifier for the blockchain network"
-                        },
-                        "name": {
-                          "type": "string",
-                          "description": "Name of the blockchain network"
-                        },
-                        "blockchain_id": {
-                          "type": "string",
-                          "description": "Identifier for the blockchain network"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "Invalid request payload"
-            },
-            "500": {
-              "description": "Server error"
-            }
-          }
-        }
-      },
-      "/exchange-rates": {
-        "post": {
-          "summary": "Get exchange rates between token pairs across blockchains.",
-          "operationId": "getExchangeRates",
-          "requestBody": {
-            "required": true,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "token_pairs": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "domestic_blockchain": {
-                            "type": "string",
-                            "description": "Identifier for the domestic blockchain network",
-                            "default": "ethereum"
-                          },
-                          "domestic_token": {
-                            "type": "string",
-                            "description": "Address of the domestic token",
-                            "default": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
-                          },
-                          "foreign_blockchain": {
-                            "type": "string",
-                            "description": "Identifier for the foreign blockchain network",
-                            "default": "ethereum"
-                          },
-                          "foreign_token": {
-                            "type": "string",
-                            "description": "Address of the foreign token",
-                            "default": "0xdac17f958d2ee523a2206206994597c13d831ec7"
-                          }
-                        },
-                        "required": ["domestic_blockchain", "domestic_token", "foreign_blockchain", "foreign_token"]
-                      }
-                    }
-                  },
-                  "required": ["token_pairs"]
-                }
-              }
-            }
-          },
-          "responses": {
-            "200": {
-              "description": "Successful response",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "exchange_rates": {
-                        "type": "array",
-                        "items": {
-                          "type": "object",
-                          "properties": {
-                            "domestic_blockchain": {
-                              "type": "string",
-                              "description": "Identifier for the domestic blockchain network"
-                            },
-                            "domestic_token": {
-                              "type": "string",
-                              "description": "Address of the domestic token"
-                            },
-                            "foreign_blockchain": {
-                              "type": "string",
-                              "description": "Identifier for the foreign blockchain network"
-                            },
-                            "foreign_token": {
-                              "type": "string",
-                              "description": "Address of the foreign token"
-                            },
-                            "price": {
-                              "type": "number",
-                              "description": "Exchange rate between the two tokens"
+        "/": {
+            "post": {
+                "summary": "Get exchange rates between token pairs across blockchains.",
+                "operationId": "getExchangeRates",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "domestic_blockchain": {
+                                            "type": "string",
+                                            "description": "Identifier for the domestic blockchain network",
+                                            "default": "ethereum"
+                                        },
+                                        "domestic_token": {
+                                            "type": "string",
+                                            "description": "Address of the domestic token",
+                                            "default": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+                                        },
+                                        "foreign_blockchain": {
+                                            "type": "string",
+                                            "description": "Identifier for the foreign blockchain network",
+                                            "default": "ethereum"
+                                        },
+                                        "foreign_token": {
+                                            "type": "string",
+                                            "description": "Address of the foreign token",
+                                            "default": "0xdac17f958d2ee523a2206206994597c13d831ec7"
+                                        }
+                                    },
+                                    "required": [
+                                        "domestic_blockchain",
+                                        "domestic_token",
+                                        "foreign_blockchain",
+                                        "foreign_token"
+                                    ]
+                                }
                             }
-                          },
-                          "required": ["domestic_token", "price", "foreign_token"]
                         }
-                      }
                     }
-                  }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "domestic_blockchain": {
+                                                "type": "string",
+                                                "description": "Identifier for the domestic blockchain network"
+                                            },
+                                            "domestic_token": {
+                                                "type": "string",
+                                                "description": "Address of the domestic token"
+                                            },
+                                            "foreign_blockchain": {
+                                                "type": "string",
+                                                "description": "Identifier for the foreign blockchain network"
+                                            },
+                                            "foreign_token": {
+                                                "type": "string",
+                                                "description": "Address of the foreign token"
+                                            },
+                                            "price": {
+                                                "type": "number",
+                                                "description": "Exchange rate between the two tokens"
+                                            }
+                                        },
+                                        "required": [
+                                            "domestic_token",
+                                            "price",
+                                            "foreign_token"
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request payload"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
                 }
-              }
-            },
-            "400": {
-              "description": "Invalid request payload"
-            },
-            "500": {
-              "description": "Server error"
             }
-          }
+        },
+        "/chains": {
+            "get": {
+                "summary": "List of all blockchain networks supported by the Gluex Exchange Rates API",
+                "operationId": "getChains",
+                "responses": {
+                    "200": {
+                        "description": "List of all blockchain IDs",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "description": "Unique identifier for the blockchain network"
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "description": "Name of the blockchain network"
+                                            },
+                                            "blockchain_id": {
+                                                "type": "string",
+                                                "description": "Identifier for the blockchain network"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request payload"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            }
         }
-      }
     }
-  }
+}
