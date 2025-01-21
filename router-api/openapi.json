@@ -63,8 +63,7 @@
           "liquidityModules": {
             "type": "array",
             "items": { "type": "string" }
-          },
-          "router": { "type": "string", "pattern": "^0x[a-fA-F0-9]{40}$" }
+          }
         }
       },
       "QuoteRequest": {
