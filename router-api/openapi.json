@@ -27,10 +27,7 @@
           "outputToken": { "type": "string", "pattern": "^0x[a-fA-F0-9]{40}$" },
           "inputAmount": { "type": "integer" },
           "userAddress": { "type": "string", "pattern": "^0x[a-fA-F0-9]{40}$" },
-          "outputReceiver": {
-            "type": "string",
-            "pattern": "^0x[a-fA-F0-9]{40}$"
-          },
+          "outputReceiver": { "type": "string", "pattern": "^0x[a-fA-F0-9]{40}$" },
           "chainID": { "type": "string" },
           "uniquePID": { "type": "string" }
         },
@@ -50,10 +47,7 @@
           "inputToken": { "type": "string", "pattern": "^0x[a-fA-F0-9]{40}$" },
           "outputToken": { "type": "string", "pattern": "^0x[a-fA-F0-9]{40}$" },
           "feeToken": { "type": "string", "pattern": "^0x[a-fA-F0-9]{40}$" },
-          "outputReceiver": {
-            "type": "string",
-            "pattern": "^0x[a-fA-F0-9]{40}$"
-          },
+          "outputReceiver": { "type": "string", "pattern": "^0x[a-fA-F0-9]{40}$" },
           "inputAmount": { "type": "integer" },
           "outputAmount": { "type": "integer" },
           "partnerFee": { "type": "integer" },
@@ -73,10 +67,7 @@
           "outputToken": { "type": "string", "pattern": "^0x[a-fA-F0-9]{40}$" },
           "inputAmount": { "type": "integer" },
           "userAddress": { "type": "string", "pattern": "^0x[a-fA-F0-9]{40}$" },
-          "outputReceiver": {
-            "type": "string",
-            "pattern": "^0x[a-fA-F0-9]{40}$"
-          },
+          "outputReceiver": { "type": "string", "pattern": "^0x[a-fA-F0-9]{40}$" },
           "chainID": { "type": "string" },
           "uniquePID": { "type": "string" },
           "isPermit2": { "type": "boolean" }
@@ -98,10 +89,7 @@
           "inputToken": { "type": "string", "pattern": "^0x[a-fA-F0-9]{40}$" },
           "outputToken": { "type": "string", "pattern": "^0x[a-fA-F0-9]{40}$" },
           "feeToken": { "type": "string", "pattern": "^0x[a-fA-F0-9]{40}$" },
-          "outputReceiver": {
-            "type": "string",
-            "pattern": "^0x[a-fA-F0-9]{40}$"
-          },
+          "outputReceiver": { "type": "string", "pattern": "^0x[a-fA-F0-9]{40}$" },
           "inputAmount": { "type": "integer" },
           "outputAmount": { "type": "integer" },
           "partnerFee": { "type": "integer" },
@@ -171,6 +159,16 @@
     "/create": {
       "post": {
         "summary": "Create an API key for a partner",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "x-api-key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -221,6 +219,16 @@
     "/v1/price": {
       "post": {
         "summary": "Get swap price without calldata",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "x-api-key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -244,6 +252,16 @@
     "/v1/quote": {
       "post": {
         "summary": "Get calldata for on-chain swap",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "x-api-key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
