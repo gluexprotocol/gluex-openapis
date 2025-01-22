@@ -149,9 +149,25 @@
                       "description": "Mapping of chain IDs to their supported liquidity modules."
                     }
                   }
-                }
+                },
+                "example": {
+                  "chains": [
+                    {"chainID": "base", "networkID": 8453},
+                    {"chainID": "ethereum", "networkID": 1}
+                  ],
+                  "liquidityModules": {
+                    "base": ["aerodrome", "alienbase_v2", "maverick_v2"],
+                    "ethereum": ["aave_v3", "affine_ultreths_eth", "apeswap"]
+                  }
+                }                
               }
             }
+          },
+          "400": {
+            "description": "Invalid request payload"
+          },
+          "500": {
+            "description": "Server error"
           }
         }
       }
@@ -193,6 +209,11 @@
                     "description": "Fee specified by the partner. Must be a non-negative integer within the range [0, 4]."
                   }
                 }
+              },
+              "example": {
+                "partnerName": "XYZ-Company",
+                "partnerAddress": "0x174F75176b73124627116653085Ce9585E261388",
+                "partnerFee": 0
               }
             }
           }
@@ -209,9 +230,23 @@
                     "uniquePID": { "type": "string" },
                     "apikey": { "type": "string" }
                   }
+                },
+                "example": {
+                  "statusCode": 200,
+                  "body": {
+                    "message": "API key created successfully.",
+                    "uniquePID": "d70a4570b6129b7ceab95ceb1f2473fbff15b741ea172d02eb533cd2d330b567",
+                    "apikey": "HywnZvSlWvrbDbPjA2sDkt7ISqIZSrGd"
+                  }
                 }
               }
             }
+          },
+          "400": {
+            "description": "Invalid request payload"
+          },
+          "500": {
+            "description": "Server error"
           }
         }
       }
@@ -233,7 +268,16 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/PriceRequest" }
+              "schema": { "$ref": "#/components/schemas/PriceRequest" },
+              "example": {
+                "inputToken": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+                "outputToken": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+                "inputAmount": 20000000000,
+                "userAddress": "0x9A6D76cB905Df126832AEB1802A27a1b37a6e872",
+                "outputReceiver": "0x9A6D76cB905Df126832AEB1802A27a1b37a6e872",
+                "chainID": "ethereum",
+                "uniquePID": "{your_unique_partner_id}"
+              }
             }
           }
         },
@@ -242,9 +286,33 @@
             "description": "Price response",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/PriceResponse" }
+                "schema": { "$ref": "#/components/schemas/PriceResponse" },
+                "example": {
+                  "statusCode": 200,
+                  "result": {
+                    "inputToken": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+                    "outputToken": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+                    "feeToken": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+                    "outputReceiver": "0x9A6D76cB905Df126832AEB1802A27a1b37a6e872",
+                    "inputAmount": 20000000000,
+                    "outputAmount": 6121830800259800326,
+                    "partnerFee": 0,
+                    "routingFee": 612183080026374,
+                    "effectiveOutputAmount": 6121218617179773952,
+                    "minOutputAmount": 6118158007871184896,
+                    "liquidityModules": [
+                      "uniswap_v3"
+                    ]
+                  }
+                }
               }
             }
+          },
+          "400": {
+            "description": "Invalid request payload"
+          },
+          "500": {
+            "description": "Server error"
           }
         }
       }
@@ -266,7 +334,17 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/QuoteRequest" }
+              "schema": { "$ref": "#/components/schemas/QuoteRequest" },
+              "example": {
+                "inputToken": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+                "outputToken": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+                "inputAmount": 20000000000,
+                "userAddress": "0x9A6D76cB905Df126832AEB1802A27a1b37a6e872",
+                "outputReceiver": "0x9A6D76cB905Df126832AEB1802A27a1b37a6e872",
+                "chainID": "ethereum",
+                "uniquePID": "{your_unique_partner_id}",
+                "isPermit2": false
+              }              
             }
           }
         },
@@ -275,9 +353,35 @@
             "description": "Quote response",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/QuoteResponse" }
+                "schema": { "$ref": "#/components/schemas/QuoteResponse" },
+                "example": {
+                  "statusCode": 200,
+                  "result": {
+                    "inputToken": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+                    "outputToken": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+                    "feeToken": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+                    "outputReceiver": "0x174F75176b73124627116653085Ce9585E261388",
+                    "inputAmount": 20000000000,
+                    "outputAmount": 6119854428544000000,
+                    "partnerFee": 0,
+                    "routingFee": 611985442853888,
+                    "effectiveOutputAmount": 6119242443101146112,
+                    "minOutputAmount": 6116182821879596032,
+                    "liquidityModules": [
+                      "fluid_dex"
+                    ],
+                    "router": "0x8a37EeC92DbBaDbA3C44ea9D94d1569A2bd55B80",
+                    "calldata": "0xb8039e98..."
+                  }
+                }
               }
             }
+          },
+          "400": {
+            "description": "Invalid request payload"
+          },
+          "500": {
+            "description": "Server error"
           }
         }
       }
