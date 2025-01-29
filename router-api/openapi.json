@@ -193,7 +193,7 @@
               "example": {
                 "inputToken": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
                 "outputToken": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
-                "inputAmount": 20000000000,
+                "inputAmount": "20000000000",
                 "userAddress": "0x9A6D76cB905Df126832AEB1802A27a1b37a6e872",
                 "outputReceiver": "0x9A6D76cB905Df126832AEB1802A27a1b37a6e872",
                 "chainID": "ethereum",
@@ -215,12 +215,12 @@
                     "outputToken": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
                     "feeToken": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
                     "outputReceiver": "0x9A6D76cB905Df126832AEB1802A27a1b37a6e872",
-                    "inputAmount": 20000000000,
-                    "outputAmount": 6121830800259800326,
-                    "partnerFee": 0,
-                    "routingFee": 612183080026374,
-                    "effectiveOutputAmount": 6121218617179773952,
-                    "minOutputAmount": 6118158007871184896,
+                    "inputAmount": "20000000000",
+                    "outputAmount": "6121830800259800326",
+                    "partnerFee": "0",
+                    "routingFee": "612183080026374",
+                    "effectiveOutputAmount": "6121218617179773952",
+                    "minOutputAmount": "6118158007871184896",
                     "liquidityModules": [
                       "uniswap_v3"
                     ]
@@ -259,7 +259,7 @@
               "example": {
                 "inputToken": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
                 "outputToken": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
-                "inputAmount": 20000000000,
+                "inputAmount": "20000000000",
                 "userAddress": "0x9A6D76cB905Df126832AEB1802A27a1b37a6e872",
                 "outputReceiver": "0x9A6D76cB905Df126832AEB1802A27a1b37a6e872",
                 "chainID": "ethereum",
@@ -282,12 +282,12 @@
                     "outputToken": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
                     "feeToken": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
                     "outputReceiver": "0x174F75176b73124627116653085Ce9585E261388",
-                    "inputAmount": 20000000000,
-                    "outputAmount": 6119854428544000000,
-                    "partnerFee": 0,
-                    "routingFee": 611985442853888,
-                    "effectiveOutputAmount": 6119242443101146112,
-                    "minOutputAmount": 6116182821879596032,
+                    "inputAmount": "20000000000",
+                    "outputAmount": "6119854428544000000",
+                    "partnerFee": "0",
+                    "routingFee": "611985442853888",
+                    "effectiveOutputAmount": "6119242443101146112",
+                    "minOutputAmount": "6116182821879596032",
                     "liquidityModules": [
                       "fluid_dex"
                     ],
