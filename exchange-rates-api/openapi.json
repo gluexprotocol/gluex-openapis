@@ -147,6 +147,162 @@
                     }
                 }
             }
+        },
+        "/tokens": {
+            "get": {
+              "summary": "Get tokens for one or more chains",
+              "parameters": [
+                {
+                  "in": "query",
+                  "name": "chains",
+                  "required": true,
+                  "schema": {
+                    "type": "string",
+                    "example": "OPTIMISM,ETH"
+                  },
+                  "description": "Comma-separated list of chains to fetch tokens from (e.g., ETH, OPTIMISM, POLYGON)"
+                }
+              ],
+              "responses": {
+                "200": {
+                  "description": "A list of tokens grouped by chain ID",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "tokens": {
+                            "type": "object",
+                            "additionalProperties": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "address": {
+                                    "type": "string",
+                                    "description": "Contract address of the token",
+                                    "example": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
+                                  },
+                                  "base": {
+                                    "type": "boolean",
+                                    "description": "Whether the token is a base asset"
+                                  },
+                                  "chainId": {
+                                    "type": "integer",
+                                    "description": "Chain ID of the token",
+                                    "example": 1
+                                  },
+                                  "name": {
+                                    "type": "string",
+                                    "example": "Wrapped Ether"
+                                  },
+                                  "symbol": {
+                                    "type": "string",
+                                    "example": "WETH"
+                                  },
+                                  "decimals": {
+                                    "type": "integer",
+                                    "example": 18
+                                  },
+                                  "logoURI": {
+                                    "type": "string",
+                                    "format": "uri",
+                                    "example": "https://tokens.1inch.io/0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee.png"
+                                  },
+                                  "tags": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    },
+                                    "example": ["NATIVE", "VERIFIED", "POPULAR"]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+        },
+        "/token": {
+            "get": {
+              "summary": "Get metadata for a single token",
+              "parameters": [
+                {
+                  "in": "query",
+                  "name": "chain",
+                  "required": true,
+                  "schema": {
+                    "type": "string",
+                    "example": "BASE"
+                  },
+                  "description": "The blockchain network to query (e.g., BASE, ETH, OPTIMISM)."
+                },
+                {
+                  "in": "query",
+                  "name": "token",
+                  "required": true,
+                  "schema": {
+                    "type": "string",
+                    "example": "MORPHO"
+                  },
+                  "description": "Token identifier — can be a contract address, name, or symbol."
+                }
+              ],
+              "responses": {
+                "200": {
+                  "description": "Token metadata",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "chainId": {
+                            "type": "integer",
+                            "example": 8453
+                          },
+                          "address": {
+                            "type": "string",
+                            "example": "0xBAa5CC21fd487B8Fcc2F632f3F4E8D37262a0842"
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "Morpho Token"
+                          },
+                          "symbol": {
+                            "type": "string",
+                            "example": "MORPHO"
+                          },
+                          "decimals": {
+                            "type": "integer",
+                            "example": 18
+                          },
+                          "logoURI": {
+                            "type": "string",
+                            "format": "uri",
+                            "example": "https://static.debank.com/image/base_token/logo_url/0xbaa5cc21fd487b8fcc2f632f3f4e8d37262a0842/c092d2c513136e17883955cdd2c62ff1.png"
+                          },
+                          "tags": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            },
+                            "example": ["POPULAR", "UTILITY", "VERIFIED", "TRADE_VOLUME", "GOVERNANCE"]
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "404": {
+                  "description": "Token not found"
+                }
+              }
+            }
         }
     }
 }
