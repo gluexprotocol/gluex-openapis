@@ -6,111 +6,232 @@
     "description": "API for interacting with the GlueX Router v1."
   },
   "servers": [
-    {
-      "url": "https://router.gluex.xyz",
-      "description": "Production"
-    }
+    { "url": "https://router.gluex.xyz", "description": "Production" }
   ],
   "components": {
     "securitySchemes": {
-      "ApiKeyAuth": {
-        "type": "apiKey",
-        "in": "header",
-        "name": "x-api-key"
-      }
+      "ApiKeyAuth": { "type": "apiKey", "in": "header", "name": "x-api-key" }
     },
     "schemas": {
       "PriceRequest": {
-        "type": "object",
-        "properties": {
-          "inputToken": { "type": "string", "pattern": "^0x[a-fA-F0-9]{40}$" },
-          "outputToken": { "type": "string", "pattern": "^0x[a-fA-F0-9]{40}$" },
-          "inputAmount": { "type": "integer" },
-          "userAddress": { "type": "string", "pattern": "^0x[a-fA-F0-9]{40}$" },
-          "outputReceiver": { "type": "string", "pattern": "^0x[a-fA-F0-9]{40}$" },
-          "chainID": { "type": "string" },
-          "uniquePID": { "type": "string" }
-        },
-        "required": [
-          "inputToken",
-          "outputToken",
-          "inputAmount",
-          "userAddress",
-          "outputReceiver",
-          "chainID",
-          "uniquePID"
-        ]
-      },
-      "PriceResponse": {
-        "type": "object",
-        "properties": {
-          "inputToken": { "type": "string", "pattern": "^0x[a-fA-F0-9]{40}$" },
-          "outputToken": { "type": "string", "pattern": "^0x[a-fA-F0-9]{40}$" },
-          "feeToken": { "type": "string", "pattern": "^0x[a-fA-F0-9]{40}$" },
-          "outputReceiver": { "type": "string", "pattern": "^0x[a-fA-F0-9]{40}$" },
-          "inputAmount": { "type": "integer" },
-          "outputAmount": { "type": "integer" },
-          "partnerFee": { "type": "integer" },
-          "routingFee": { "type": "integer" },
-          "effectiveOutputAmount": { "type": "integer" },
-          "minOutputAmount": { "type": "integer" },
-          "liquidityModules": {
-            "type": "array",
-            "items": { "type": "string" }
+        "allOf": [
+          {
+            "type": "object",
+            "properties": {
+              "chainID": { "type": "string", "example": "ethereum" },
+              "inputToken": {
+                "type": "string",
+                "pattern": "^0x[a-fA-F0-9]{40}$",
+                "example": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+              },
+              "outputToken": {
+                "type": "string",
+                "pattern": "^0x[a-fA-F0-9]{40}$",
+                "example": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
+              },
+              "inputAmount": {
+                "type": "string",
+                "example": "1000000000000000000"
+              },
+              "orderType": { "type": "string", "enum": ["SELL", "BUY"] },
+              "userAddress": {
+                "type": "string",
+                "pattern": "^0x[a-fA-F0-9]{40}$",
+                "example": "0x174F75176b73124627116653085Ce9585E261388"
+              },
+              "outputReceiver": {
+                "type": "string",
+                "pattern": "^0x[a-fA-F0-9]{40}$",
+                "example": "0x9A6D76cB905Df126832AEB1802A27a1b37a6e872"
+              },
+              "uniquePID": {
+                "type": "string",
+                "example": "866a61811189692e8eccae5d2759724a812fa6f8703ebffe90c29dc1f886bbc1"
+              }
+            },
+            "required": [
+              "inputToken",
+              "outputToken",
+              "userAddress",
+              "outputReceiver",
+              "uniquePID"
+            ]
+          },
+          {
+            "oneOf": [
+              { "required": ["chainID"] },
+              { "required": ["networkID"] }
+            ]
+          },
+          {
+            "oneOf": [
+              {
+                "required": ["inputAmount", "orderType"],
+                "properties": { "orderType": { "enum": ["SELL"] } }
+              },
+              {
+                "required": ["outputAmount", "orderType"],
+                "properties": { "orderType": { "enum": ["BUY"] } }
+              }
+            ]
           }
-        }
+        ]
       },
       "QuoteRequest": {
-        "type": "object",
-        "properties": {
-          "inputToken": { "type": "string", "pattern": "^0x[a-fA-F0-9]{40}$" },
-          "outputToken": { "type": "string", "pattern": "^0x[a-fA-F0-9]{40}$" },
-          "inputAmount": { "type": "integer" },
-          "userAddress": { "type": "string", "pattern": "^0x[a-fA-F0-9]{40}$" },
-          "outputReceiver": { "type": "string", "pattern": "^0x[a-fA-F0-9]{40}$" },
-          "chainID": { "type": "string" },
-          "uniquePID": { "type": "string" },
-          "isPermit2": { "type": "boolean" }
-        },
-        "required": [
-          "inputToken",
-          "outputToken",
-          "inputAmount",
-          "userAddress",
-          "outputReceiver",
-          "chainID",
-          "uniquePID",
-          "isPermit2"
+        "allOf": [
+          {
+            "type": "object",
+            "properties": {
+              "chainID": { "type": "string", "example": "ethereum" },
+              "inputToken": {
+                "type": "string",
+                "pattern": "^0x[a-fA-F0-9]{40}$",
+                "example": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+              },
+              "outputToken": {
+                "type": "string",
+                "pattern": "^0x[a-fA-F0-9]{40}$",
+                "example": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
+              },
+              "inputAmount": {
+                "type": "string",
+                "example": "1000000000000000000"
+              },
+              "orderType": { "type": "string", "enum": ["SELL", "BUY"] },
+              "userAddress": {
+                "type": "string",
+                "pattern": "^0x[a-fA-F0-9]{40}$",
+                "example": "0x174F75176b73124627116653085Ce9585E261388"
+              },
+              "outputReceiver": {
+                "type": "string",
+                "pattern": "^0x[a-fA-F0-9]{40}$",
+                "example": "0x9A6D76cB905Df126832AEB1802A27a1b37a6e872"
+              },
+              "uniquePID": {
+                "type": "string",
+                "example": "866a61811189692e8eccae5d2759724a812fa6f8703ebffe90c29dc1f886bbc1"
+              }
+            },
+            "required": [
+              "inputToken",
+              "outputToken",
+              "inputAmount",
+              "userAddress",
+              "outputReceiver",
+              "uniquePID"
+            ]
+          },
+          {
+            "oneOf": [
+              { "required": ["chainID"] },
+              { "required": ["networkID"] }
+            ]
+          },
+          {
+            "oneOf": [
+              {
+                "required": ["inputAmount", "orderType"],
+                "properties": { "orderType": { "enum": ["SELL"] } }
+              },
+              {
+                "required": ["outputAmount", "orderType"],
+                "properties": { "orderType": { "enum": ["BUY"] } }
+              }
+            ]
+          }
         ]
       },
-      "QuoteResponse": {
+      "CommonResponse": {
         "type": "object",
         "properties": {
-          "inputToken": { "type": "string", "pattern": "^0x[a-fA-F0-9]{40}$" },
-          "outputToken": { "type": "string", "pattern": "^0x[a-fA-F0-9]{40}$" },
-          "feeToken": { "type": "string", "pattern": "^0x[a-fA-F0-9]{40}$" },
-          "outputReceiver": { "type": "string", "pattern": "^0x[a-fA-F0-9]{40}$" },
-          "inputAmount": { "type": "integer" },
-          "outputAmount": { "type": "integer" },
-          "partnerFee": { "type": "integer" },
-          "routingFee": { "type": "integer" },
-          "effectiveOutputAmount": { "type": "integer" },
-          "minOutputAmount": { "type": "integer" },
+          "inputToken": {
+            "type": "string",
+            "pattern": "^0x[a-fA-F0-9]{40}$",
+            "example": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+          },
+          "outputToken": {
+            "type": "string",
+            "pattern": "^0x[a-fA-F0-9]{40}$",
+            "example": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
+          },
+          "feeToken": {
+            "type": "string",
+            "pattern": "^0x[a-fA-F0-9]{40}$",
+            "example": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
+          },
+          "inputSender": {
+            "type": "string",
+            "pattern": "^0x[a-fA-F0-9]{40}$",
+            "example": "0x174F75176b73124627116653085Ce9585E261388"
+          },
+          "outputReceiver": {
+            "type": "string",
+            "pattern": "^0x[a-fA-F0-9]{40}$",
+            "example": "0x9A6D76cB905Df126832AEB1802A27a1b37a6e872"
+          },
+          "inputAmount": { "type": "string", "example": "1000000000000000000" },
+          "outputAmount": {
+            "type": "string",
+            "example": "1000000000000000000"
+          },
+          "partnerFee": { "type": "string", "example": "0" },
+          "routingFee": { "type": "string", "example": "0" },
+          "effectiveInputAmount": {
+            "type": "string",
+            "example": "1000000000000000000"
+          },
+          "effectiveOutputAmount": {
+            "type": "string",
+            "example": "1000000000000000000"
+          },
+          "minOutputAmount": {
+            "type": "string",
+            "example": "1000000000000000000"
+          },
           "liquidityModules": {
             "type": "array",
             "items": { "type": "string" }
           },
-          "router": { "type": "string", "pattern": "^0x[a-fA-F0-9]{40}$" },
-          "calldata": { "type": "string" }
+          "isNativeTokenInput": { "type": "boolean", "example": true },
+          "value": { "type": "string", "example": "1000000000000000000" },
+          "router": {
+            "type": "string",
+            "pattern": "^0x[a-fA-F0-9]{40}$",
+            "example": "0x6Ec7612828B776cC746fe0Ee5381CC93878844f7"
+          }
         }
+      },
+      "PriceResponse": {
+        "allOf": [
+          { "$ref": "#/components/schemas/CommonResponse" },
+          {
+            "type": "object",
+            "properties": {
+              "surgeValue": { "type": "integer", "example": 0 }
+            }
+          }
+        ]
+      },
+      "QuoteResponse": {
+        "allOf": [
+          { "$ref": "#/components/schemas/CommonResponse" },
+          {
+            "type": "object",
+            "properties": {
+              "calldata": { "type": "string" },
+              "revert": { "type": "boolean", "example": false },
+              "computationUnits": { "type": "integer", "example": 2000000 },
+              "lowBalance": { "type": "boolean", "example": false },
+              "blockNumber": { "type": "integer", "example": 12345678 },
+              "simulation": { "type": "string" }
+            }
+          }
+        ]
       }
     }
   },
-  "security": [
-    {
-      "ApiKeyAuth": []
-    }
-  ],
+  "security": [{ "ApiKeyAuth": [] }],
   "paths": {
     "/liquidity": {
       "get": {
@@ -129,14 +250,8 @@
                       "items": {
                         "type": "object",
                         "properties": {
-                          "chainID": {
-                            "type": "string",
-                            "description": "Identifier of the blockchain network."
-                          },
-                          "networkID": {
-                            "type": "integer",
-                            "description": "Numeric identifier for the blockchain network."
-                          }
+                          "chainID": { "type": "string" },
+                          "networkID": { "type": "string" }
                         }
                       }
                     },
@@ -145,206 +260,70 @@
                       "additionalProperties": {
                         "type": "array",
                         "items": { "type": "string" }
-                      },
-                      "description": "Mapping of chain IDs to their supported liquidity modules."
+                      }
                     }
                   }
-                },
-                "example": {
-                  "chains": [
-                    {"chainID": "base", "networkID": 8453},
-                    {"chainID": "ethereum", "networkID": 1}
-                  ],
-                  "liquidityModules": {
-                    "base": ["aerodrome", "alienbase_v2", "maverick_v2"],
-                    "ethereum": ["aave_v3", "affine_ultreths_eth", "apeswap"]
-                  }
-                }                
+                }
               }
             }
-          },
-          "400": {
-            "description": "Invalid request payload"
-          },
-          "500": {
-            "description": "Server error"
           }
         }
       }
     },
-    "/create": {
+    "/price": {
       "post": {
-        "summary": "Create an API key for a partner",
+        "summary": "Get swap price estimate (no calldata)",
         "parameters": [
           {
             "in": "header",
             "name": "x-api-key",
             "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "schema": { "type": "string" }
           }
         ],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "type": "object",
-                "required": ["partnerName", "partnerAddress", "partnerFee"],
-                "properties": {
-                  "partnerName": {
-                    "type": "string",
-                    "description": "Name of the partner requesting the API key."
-                  },
-                  "partnerAddress": {
-                    "type": "string",
-                    "pattern": "^0x[a-fA-F0-9]{40}$",
-                    "description": "Wallet address of the partner where the fee can be transferred, if applicable."
-                  },
-                  "partnerFee": {
-                    "type": "integer",
-                    "minimum": 0,
-                    "maximum": 4,
-                    "description": "Fee specified by the partner. Must be a non-negative integer within the range [0, 4]."
-                  }
-                }
-              },
-              "example": {
-                "partnerName": "XYZ-Company",
-                "partnerAddress": "0x174F75176b73124627116653085Ce9585E261388",
-                "partnerFee": 0
-              }
+              "schema": { "$ref": "#/components/schemas/PriceRequest" }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "API key created successfully",
+            "description": "Price estimate response",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string" },
-                    "uniquePID": { "type": "string" },
-                    "apikey": { "type": "string" }
-                  }
-                },
-                "example": {
-                  "statusCode": 200,
-                  "body": {
-                    "message": "API key created successfully.",
-                    "uniquePID": "d70a4570b6129b7ceab95ceb1f2473fbff15b741ea172d02eb533cd2d330b567",
-                    "apikey": "HywnZvSlWvrbDbPjA2sDkt7ISqIZSrGd"
-                  }
+                    "statusCode": { "type": "integer", "example": 200 },
+                    "result": { "$ref": "#/components/schemas/PriceResponse" }
+                  },
+                  "required": ["statusCode", "result"]
                 }
               }
             }
-          },
-          "400": {
-            "description": "Invalid request payload"
-          },
-          "500": {
-            "description": "Server error"
           }
         }
       }
     },
-    "/v1/price": {
+    "/quote": {
       "post": {
-        "summary": "Get swap price without calldata",
+        "summary": "Get full swap quote with calldata",
         "parameters": [
           {
             "in": "header",
             "name": "x-api-key",
             "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "schema": { "type": "string" }
           }
         ],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/PriceRequest" },
-              "example": {
-                "inputToken": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
-                "outputToken": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
-                "inputAmount": 20000000000,
-                "userAddress": "0x9A6D76cB905Df126832AEB1802A27a1b37a6e872",
-                "outputReceiver": "0x9A6D76cB905Df126832AEB1802A27a1b37a6e872",
-                "chainID": "ethereum",
-                "uniquePID": "{your_unique_partner_id}"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Price response",
-            "content": {
-              "application/json": {
-                "schema": { "$ref": "#/components/schemas/PriceResponse" },
-                "example": {
-                  "statusCode": 200,
-                  "result": {
-                    "inputToken": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
-                    "outputToken": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
-                    "feeToken": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
-                    "outputReceiver": "0x9A6D76cB905Df126832AEB1802A27a1b37a6e872",
-                    "inputAmount": 20000000000,
-                    "outputAmount": 6121830800259800326,
-                    "partnerFee": 0,
-                    "routingFee": 612183080026374,
-                    "effectiveOutputAmount": 6121218617179773952,
-                    "minOutputAmount": 6118158007871184896,
-                    "liquidityModules": [
-                      "uniswap_v3"
-                    ]
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid request payload"
-          },
-          "500": {
-            "description": "Server error"
-          }
-        }
-      }
-    },
-    "/v1/quote": {
-      "post": {
-        "summary": "Get calldata for on-chain swap",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "x-api-key",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": { "$ref": "#/components/schemas/QuoteRequest" },
-              "example": {
-                "inputToken": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
-                "outputToken": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
-                "inputAmount": 20000000000,
-                "userAddress": "0x9A6D76cB905Df126832AEB1802A27a1b37a6e872",
-                "outputReceiver": "0x9A6D76cB905Df126832AEB1802A27a1b37a6e872",
-                "chainID": "ethereum",
-                "uniquePID": "{your_unique_partner_id}",
-                "isPermit2": false
-              }              
+              "schema": { "$ref": "#/components/schemas/QuoteRequest" }
             }
           }
         },
@@ -353,35 +332,16 @@
             "description": "Quote response",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/QuoteResponse" },
-                "example": {
-                  "statusCode": 200,
-                  "result": {
-                    "inputToken": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
-                    "outputToken": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
-                    "feeToken": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
-                    "outputReceiver": "0x174F75176b73124627116653085Ce9585E261388",
-                    "inputAmount": 20000000000,
-                    "outputAmount": 6119854428544000000,
-                    "partnerFee": 0,
-                    "routingFee": 611985442853888,
-                    "effectiveOutputAmount": 6119242443101146112,
-                    "minOutputAmount": 6116182821879596032,
-                    "liquidityModules": [
-                      "fluid_dex"
-                    ],
-                    "router": "0x8a37EeC92DbBaDbA3C44ea9D94d1569A2bd55B80",
-                    "calldata": "0xb8039e98..."
-                  }
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": { "type": "integer", "example": 200 },
+                    "result": { "$ref": "#/components/schemas/QuoteResponse" }
+                  },
+                  "required": ["statusCode", "result"]
                 }
               }
             }
-          },
-          "400": {
-            "description": "Invalid request payload"
-          },
-          "500": {
-            "description": "Server error"
           }
         }
       }
