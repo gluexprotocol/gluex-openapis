@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "GlueX Yield API",
-    "description": "API for calculating pool's Historical APY, Diluted APY and TVL.",
+    "description": "API for calculating pool's Historical APY, Diluted APY and TVL. ",
     "version": "0.5.0"
   },
   "servers": [
