@@ -266,7 +266,7 @@
         }
       }
     },
-    "/price": {
+    "/v1/price": {
       "post": {
         "summary": "Get swap price estimate (no calldata)",
         "parameters": [
@@ -304,7 +304,7 @@
         }
       }
     },
-    "/quote": {
+    "/v1/quote": {
       "post": {
         "summary": "Get full swap quote with calldata",
         "parameters": [
