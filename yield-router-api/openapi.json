@@ -1,0 +1,357 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "GlueX Yield API",
+    "description": "API for calculating pool's Historical APY, Diluted APY and TVL. ",
+    "version": "0.5.0"
+  },
+  "servers": [
+    {
+      "url": "https://yield.gluex.xyz",
+      "description": "Production server"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "HistoricalAPYRequest": {
+        "allOf": [
+          {
+            "type": "object",
+            "properties": {
+              "pool_address": {
+                "type": "string",
+                "pattern": "^0x[a-fA-F0-9]{40}$",
+                "description": "Address of the pool contract",
+                "example": "0x1234567890123456789012345678901234567890"
+              },
+              "lp_token_address": {
+                "type": "string",
+                "pattern": "^0x[a-fA-F0-9]{40}$",
+                "description": "Address of the LP token contract",
+                "example": "0x1234567890123456789012345678901234567890"
+              },
+              "chain": {
+                "type": "string",
+                "description": "Blockchain network identifier",
+                "example": "ethereum"
+              },
+              "input_token": {
+                "type": "string",
+                "pattern": "^0x[a-fA-F0-9]{40}$",
+                "description": "Address of the input token for APY calculation (auto-selected if not provided)",
+                "example": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+              }
+            },
+            "required": ["chain"]
+          },
+          {
+            "oneOf": [
+              { "required": ["pool_address"] },
+              { "required": ["lp_token_address"] }
+            ]
+          }
+        ]
+      },
+      "DilutedAPYRequest": {
+        "allOf": [
+          {
+            "type": "object",
+            "properties": {
+              "pool_address": {
+                "type": "string",
+                "pattern": "^0x[a-fA-F0-9]{40}$",
+                "description": "Address of the pool contract",
+                "example": "0x1234567890123456789012345678901234567890"
+              },
+              "lp_token_address": {
+                "type": "string",
+                "pattern": "^0x[a-fA-F0-9]{40}$",
+                "description": "Address of the LP token contract",
+                "example": "0x1234567890123456789012345678901234567890"
+              },
+              "chain": {
+                "type": "string",
+                "description": "Blockchain network identifier",
+                "example": "ethereum"
+              },
+              "input_token": {
+                "type": "string",
+                "pattern": "^0x[a-fA-F0-9]{40}$",
+                "description": "Address of the input token for APY calculation (auto-selected if not provided)",
+                "example": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+              },
+              "input_amount": {
+                "type": "integer",
+                "description": "Amount to consider for dilution calculation (in token's smallest unit)",
+                "example": 1000000000000000000
+              }
+            },
+            "required": ["chain", "input_amount"]
+          },
+          {
+            "oneOf": [
+              { "required": ["pool_address"] },
+              { "required": ["lp_token_address"] }
+            ]
+          }
+        ]
+      },
+      "TVLRequest": {
+        "allOf": [
+          {
+            "type": "object",
+            "properties": {
+              "pool_address": {
+                "type": "string",
+                "pattern": "^0x[a-fA-F0-9]{40}$",
+                "description": "Address of the pool contract",
+                "example": "0x1234567890123456789012345678901234567890"
+              },
+              "lp_token_address": {
+                "type": "string",
+                "pattern": "^0x[a-fA-F0-9]{40}$",
+                "description": "Address of the LP token contract",
+                "example": "0x1234567890123456789012345678901234567890"
+              },
+              "chain": {
+                "type": "string",
+                "description": "Blockchain network identifier",
+                "example": "ethereum"
+              }
+            },
+            "required": ["chain"]
+          },
+          {
+            "oneOf": [
+              { "required": ["pool_address"] },
+              { "required": ["lp_token_address"] }
+            ]
+          }
+        ]
+      },
+      "HistoricalAPYResponse": {
+        "type": "object",
+        "properties": {
+          "apy": {
+            "type": "number",
+            "description": "Annual Percentage Yield",
+            "example": 5.25
+          },
+          "network_id": {
+            "type": "string",
+            "description": "Blockchain network identifier",
+            "example": "ethereum"
+          },
+          "pool_address": {
+            "type": "string",
+            "pattern": "^0x[a-fA-F0-9]{40}$",
+            "description": "Address of the pool contract",
+            "example": "0x1234567890123456789012345678901234567890"
+          },
+          "input_token": {
+            "type": "string",
+            "pattern": "^0x[a-fA-F0-9]{40}$",
+            "description": "Address of the input token used for APY calculation",
+            "example": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+          }
+        },
+        "required": ["apy", "network_id"]
+      },
+      "DilutedAPYResponse": {
+        "type": "object",
+        "properties": {
+          "apy": {
+            "type": "number",
+            "description": "Annual Percentage Yield",
+            "example": 5.25
+          },
+          "network_id": {
+            "type": "string",
+            "description": "Blockchain network identifier",
+            "example": "ethereum"
+          },
+          "pool_address": {
+            "type": "string",
+            "pattern": "^0x[a-fA-F0-9]{40}$",
+            "description": "Address of the pool contract",
+            "example": "0x1234567890123456789012345678901234567890"
+          },
+          "input_token": {
+            "type": "string",
+            "pattern": "^0x[a-fA-F0-9]{40}$",
+            "description": "Address of the input token used for APY calculation",
+            "example": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+          },
+          "input_amount": {
+            "type": "string",
+            "description": "Amount used for dilution calculation",
+            "example": "1000000000000000000"
+          }
+        },
+        "required": ["apy", "network_id", "input_amount"]
+      },
+      "TVLResponse": {
+        "type": "object",
+        "properties": {
+          "tvl": {
+            "type": "number",
+            "description": "Total Value Locked in USD",
+            "example": 1234567.89
+          },
+          "network_id": {
+            "type": "string",
+            "description": "Blockchain network identifier",
+            "example": "ethereum"
+          },
+          "pool_address": {
+            "type": "string",
+            "pattern": "^0x[a-fA-F0-9]{40}$",
+            "description": "Address of the pool contract",
+            "example": "0x1234567890123456789012345678901234567890"
+          }
+        },
+        "required": ["tvl", "network_id"]
+      }
+    }
+  },
+  "paths": {
+    "/active-protocols": {
+      "get": {
+        "summary": "Retrieve available chains and active protocols",
+        "description": "Fetches a list of supported blockchain networks and their associated active lending protocols.",
+        "responses": {
+          "200": {
+            "description": "Successful response containing available chains and protocols",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "chains": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "total_chains": {
+                      "type": "integer",
+                      "example": 15
+                    },
+                    "total_unique_protocols": {
+                      "type": "integer",
+                      "example": 25
+                    },
+                    "timestamp": {
+                      "type": "number",
+                      "example": 1641024000.0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/historical-apy": {
+      "post": {
+        "summary": "Calculate historical APY for a lending pool",
+        "description": "Calculate the historical Annual Percentage Yield (APY) for a lending pool without considering liquidity impact.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/HistoricalAPYRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Historical APY calculation response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean", "example": true },
+                    "historic_yield": { "$ref": "#/components/schemas/HistoricalAPYResponse" }
+                  },
+                  "required": ["success", "historic_yield"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/diluted-apy": {
+      "post": {
+        "summary": "Calculate diluted APY for a lending pool",
+        "description": "Calculate the diluted Annual Percentage Yield (APY) for a lending pool considering the impact of a specific amount.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/DilutedAPYRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Diluted APY calculation response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean", "example": true },
+                    "diluted_yield": { "$ref": "#/components/schemas/DilutedAPYResponse" }
+                  },
+                  "required": ["success", "diluted_yield"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tvl": {
+      "post": {
+        "summary": "Calculate Total Value Locked (TVL) for a lending pool",
+        "description": "Calculate the Total Value Locked (TVL) in USD for a lending pool.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/TVLRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "TVL calculation response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean", "example": true },
+                    "tvl": { "$ref": "#/components/schemas/TVLResponse" }
+                  },
+                  "required": ["success", "tvl"]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
