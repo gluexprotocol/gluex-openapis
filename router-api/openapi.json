@@ -27,7 +27,7 @@
               "outputToken": {
                 "type": "string",
                 "pattern": "^0x[a-fA-F0-9]{40}$",
-                "example": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
+                "example": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
               },
               "inputAmount": {
                 "type": "string",
@@ -91,7 +91,7 @@
               "outputToken": {
                 "type": "string",
                 "pattern": "^0x[a-fA-F0-9]{40}$",
-                "example": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
+                "example": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
               },
               "inputAmount": {
                 "type": "string",
@@ -153,12 +153,12 @@
           "outputToken": {
             "type": "string",
             "pattern": "^0x[a-fA-F0-9]{40}$",
-            "example": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
+            "example": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
           },
           "feeToken": {
             "type": "string",
             "pattern": "^0x[a-fA-F0-9]{40}$",
-            "example": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
+            "example": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
           },
           "inputSender": {
             "type": "string",
