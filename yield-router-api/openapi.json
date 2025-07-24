@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "https://yield.gluex.xyz",
+      "url": "https://yield-api.gluex.xyz",
       "description": "Production server"
     }
   ],
