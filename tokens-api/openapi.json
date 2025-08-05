@@ -1,0 +1,209 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "GlueX Tokens GraphQL API",
+    "version": "1.0.0",
+    "description": "A single GraphQL endpoint fully described with OpenAPI\n\nSend a `POST` request to `https://tokens.gluex.xyz/graphql` with a JSON body containing:  \n  • **query** – the GraphQL document to execute  \n  • **variables** – an object providing values for any declared `$variables`  \n  • **operationName** – required only when the document defines more than one operation\n"
+  },
+  "servers": [
+    {
+      "url": "https://tokens.gluex.xyz"
+    }
+  ],
+  "tags": [
+    {
+      "name": "GraphQL",
+      "description": "Unified endpoint for every GlueX GraphQL request"
+    }
+  ],
+  "paths": {
+    "/graphql": {
+      "post": {
+        "tags": [
+          "GraphQL"
+        ],
+        "summary": "Run any GraphQL query or mutation",
+        "operationId": "executeGraphQL",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GraphQLRequest"
+              },
+              "examples": {
+                "SearchTokens": {
+                  "summary": "Search for tokens matching a text pattern",
+                  "value": {
+                    "query": "query SearchTokens(\n  $chain: String!\n  $pattern: String!\n  $limit: Int = 20\n  $offset: Int = 0\n) {\n  searchTokens(\n    chain: $chain\n    pattern: $pattern\n    limit: $limit\n    offset: $offset\n  ) {\n    items {\n      tokenAddress\n      name\n      symbol\n      decimals\n      standard\n      type\n      priority\n      branding { logoUri }\n    }\n    total\n    hasMore\n  }\n}",
+                    "variables": {
+                      "chain": "hyperevm",
+                      "pattern": "hy",
+                      "limit": 20,
+                      "offset": 0
+                    },
+                    "operationName": "SearchTokens"
+                  }
+                },
+                "TokensByType": {
+                  "summary": "Retrieve tokens belonging to a functional type",
+                  "value": {
+                    "query": "query TokensByType(\n  $chain: String!\n  $tokenType: String!\n  $limit: Int = 20\n) {\n  tokensByType(chain: $chain, tokenType: $tokenType, limit: $limit) {\n    items {\n      tokenAddress\n      name\n      symbol\n      decimals\n      standard\n      type\n      priority\n      branding { logoUri }\n    }\n    total\n    hasMore\n  }\n}",
+                    "variables": {
+                      "chain": "hyperevm",
+                      "tokenType": "stable",
+                      "limit": 20
+                    },
+                    "operationName": "TokensByType"
+                  }
+                },
+                "Tokens": {
+                  "summary": "List tokens available on a chain",
+                  "value": {
+                    "query": "query Tokens($chain: String!, $limit: Int = 20) {\n  tokens(chain: $chain, limit: $limit) {\n    items {\n      tokenAddress\n      name\n      symbol\n      decimals\n      standard\n      type\n      branding { logoUri }\n    }\n    total\n    hasMore\n  }\n}",
+                    "variables": {
+                      "chain": "hyperevm",
+                      "limit": 20
+                    },
+                    "operationName": "Tokens"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Standard GraphQL success envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GraphQLResponse"
+                }
+              }
+            }
+          },
+          "4XX": {
+            "$ref": "#/components/responses/ClientError"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "GraphQLRequest": {
+        "type": "object",
+        "required": [
+          "query"
+        ],
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Full GraphQL document—query, mutation, or subscription"
+          },
+          "variables": {
+            "type": "object",
+            "description": "Object containing values for the `$variables` declared in **query**"
+          },
+          "operationName": {
+            "type": "string",
+            "description": "Operation name to run when **query** contains multiple operations"
+          }
+        }
+      },
+      "GraphQLResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "description": "Present only when the operation has no top-level errors"
+          },
+          "errors": {
+            "type": "array",
+            "description": "Present when GraphQL returns errors; each entry follows the GraphQL specification",
+            "items": {
+              "$ref": "#/components/schemas/GraphQLError"
+            }
+          }
+        },
+        "example": {
+          "data": {
+            "searchTokens": {
+              "/* … */": {}
+            }
+          }
+        }
+      },
+      "GraphQLError": {
+        "type": "object",
+        "description": "Represents a single error entry from the GraphQL `errors` array",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "locations": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "line": {
+                  "type": "integer"
+                },
+                "column": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "path": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "ErrorEnvelope": {
+        "type": "object",
+        "description": "Standard error wrapper for non-GraphQL failures",
+        "required": [
+          "message"
+        ],
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "details": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "responses": {
+      "ClientError": {
+        "description": "The request body is malformed or failed validation",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorEnvelope"
+            }
+          }
+        }
+      },
+      "ServerError": {
+        "description": "Unexpected server-side failure",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorEnvelope"
+            }
+          }
+        }
+      }
+    }
+  }
+}
