@@ -47,6 +47,46 @@
               "uniquePID": {
                 "type": "string",
                 "example": "866a61811189692e8eccae5d2759724a812fa6f8703ebffe90c29dc1f886bbc1"
+              },
+              "isPartialFill": {
+                "type": "boolean",
+                "description": "Allow partial fill routes",
+                "example": false
+              },
+              "isPermit2": {
+                "type": "boolean",
+                "description": "Use Permit2 approval flow if supported",
+                "example": false
+              },
+              "slippage": {
+                "type": "integer",
+                "description": "Max slippage in basis points",
+                "minimum": 1,
+                "maximum": 10000,
+                "example": 500
+              },
+              "partnerFee": {
+                "type": "string",
+                "description": "Partner fee amount (units as defined by integration)",
+                "example": "0"
+              },
+              "partnerAddress": {
+                "type": "string",
+                "description": "Partner fee recipient",
+                "pattern": "^0x[a-fA-F0-9]{40}$",
+                "example": "0x18bFA96b867CFab2A8720A3599367e2A8E23C0Ac"
+              },
+              "modulesFilter": {
+                "type": "array",
+                "description": "Only consider these modules during routing",
+                "items": { "type": "string" },
+                "example": []
+              },
+              "modulesDisabled": {
+                "type": "array",
+                "description": "Explicitly disable these modules during routing",
+                "items": { "type": "string" },
+                "example": []
               }
             },
             "required": [
@@ -111,6 +151,47 @@
               "uniquePID": {
                 "type": "string",
                 "example": "866a61811189692e8eccae5d2759724a812fa6f8703ebffe90c29dc1f886bbc1"
+              },
+
+              "isPartialFill": {
+                "type": "boolean",
+                "description": "Allow partial fill routes",
+                "example": false
+              },
+              "isPermit2": {
+                "type": "boolean",
+                "description": "Use Permit2 approval flow if supported",
+                "example": false
+              },
+              "slippage": {
+                "type": "integer",
+                "description": "Max slippage in basis points",
+                "minimum": 1,
+                "maximum": 10000,
+                "example": 500
+              },
+              "partnerFee": {
+                "type": "string",
+                "description": "Partner fee amount (units as defined by integration)",
+                "example": "0"
+              },
+              "partnerAddress": {
+                "type": "string",
+                "description": "Partner fee recipient",
+                "pattern": "^0x[a-fA-F0-9]{40}$",
+                "example": "0x18bFA96b867CFab2A8720A3599367e2A8E23C0Ac"
+              },
+              "modulesFilter": {
+                "type": "array",
+                "description": "Only consider these modules during routing",
+                "items": { "type": "string" },
+                "example": []
+              },
+              "modulesDisabled": {
+                "type": "array",
+                "description": "Explicitly disable these modules during routing",
+                "items": { "type": "string" },
+                "example": []
               }
             },
             "required": [
